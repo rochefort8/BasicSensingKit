@@ -5,29 +5,31 @@
 #include "Sensors.h"
 #include "BT_HC05.h"
 #include "DS323x_Rtc.h"
+#include "Timer.h"
 
 Blink blink ;
 Sensors sensors ;
 BT_HC05 bt ;
 DS323x_Rtc rtc ;
+Timer timer ;
 
-void setup() {
+void setup() 
+{
+
+  pinMode(A10, OUTPUT);
+  digitalWrite(A10, LOW);  
+
+  timer.begin();
   Serial.begin(115200);
   blink.begin() ;
   sensors.begin() ;
   bt.begin() ;
   rtc.begin() ;
+
 }
 
 void loop() {
-  blink.blink() ;
-  sensors.read() ;
-
-  DateTime now = rtc.get();
-  Serial.println(now.timestamp());
-
-//  bt.read() ;
-//  bt.write() ;
-
-  delay(1000);                       // wait for a second
+  if (sensors.available()) {
+    sensors.read() ;   
+  }
 }

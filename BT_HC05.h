@@ -16,10 +16,8 @@ public:
         Serial.write(btport.read());
     }
   }
-  int write(void) {
-    if (Serial.available()){
-       btport.write(Serial.read());              
-    }
+  int write(String s) { 
+    btport.println(s);              
   }
 private:  
 } ;
